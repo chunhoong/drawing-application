@@ -9,21 +9,22 @@ import com.chunhoong.drawingapplication.domain.Line;
 import com.chunhoong.drawingapplication.domain.Rectangle;
 import com.chunhoong.drawingapplication.domain.Shade;
 import com.chunhoong.drawingapplication.facade.DrawingFacade;
+import com.chunhoong.drawingapplication.service.InputUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.Scanner;
 
 @Component
 public class MainRunner implements CommandLineRunner {
 
     private String input;
     private String[] inputValues;
+    private final InputUtil inputUtil;
     private final DrawingFacade drawingFacade;
 
     @Autowired
-    public MainRunner(DrawingFacade drawingFacade) {
+    public MainRunner(InputUtil inputUtil, DrawingFacade drawingFacade) {
+        this.inputUtil = inputUtil;
         this.drawingFacade = drawingFacade;
     }
 
@@ -64,9 +65,8 @@ public class MainRunner implements CommandLineRunner {
         }
     }
 
-    private void readInput() {
-        System.out.print("enter command: ");
-        input = new Scanner(System.in).nextLine();
+    public void readInput() {
+        input = inputUtil.readInput("enter command: ");
         inputValues = input.split(" ");
     }
 
