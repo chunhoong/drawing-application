@@ -8,14 +8,14 @@ public class LineBuilder {
     private int x2, y2;
 
     public LineBuilder point1(String x, String y) {
-        this.x1 = Integer.parseInt(x) - 1;
-        this.y1 = Integer.parseInt(y) - 1;
+        this.x1 = Integer.parseInt(x);
+        this.y1 = Integer.parseInt(y);
         return this;
     }
 
     public LineBuilder point2(String x, String y) {
-        this.x2 = Integer.parseInt(x) - 1;
-        this.y2 = Integer.parseInt(y) - 1;
+        this.x2 = Integer.parseInt(x);
+        this.y2 = Integer.parseInt(y);
         return this;
     }
 

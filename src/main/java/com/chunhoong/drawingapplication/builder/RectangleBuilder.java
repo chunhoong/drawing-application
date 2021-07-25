@@ -7,14 +7,14 @@ public class RectangleBuilder {
     private int xBottomRight, yBottomRight;
 
     public RectangleBuilder topLeft(String x, String y) {
-        this.xTopLeft = Integer.parseInt(x) - 1;
-        this.yTopLeft = Integer.parseInt(y) - 1;
+        this.xTopLeft = Integer.parseInt(x);
+        this.yTopLeft = Integer.parseInt(y);
         return this;
     }
 
     public RectangleBuilder bottomRight(String x, String y) {
-        this.xBottomRight = Integer.parseInt(x) - 1;
-        this.yBottomRight = Integer.parseInt(y) -1;
+        this.xBottomRight = Integer.parseInt(x);
+        this.yBottomRight = Integer.parseInt(y);
         return this;
     }
 

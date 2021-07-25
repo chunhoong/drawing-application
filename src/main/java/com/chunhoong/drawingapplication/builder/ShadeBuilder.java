@@ -7,8 +7,8 @@ public class ShadeBuilder {
     private String color;
 
     public ShadeBuilder point(String x, String y) {
-        this.x = Integer.parseInt(x) - 1;
-        this.y = Integer.parseInt(y) - 1;
+        this.x = Integer.parseInt(x);
+        this.y = Integer.parseInt(y);
         return this;
     }
 

@@ -34,8 +34,8 @@ public class ShadeDrawingService implements DrawingService<Shade>{
 
         Consumer<Integer> shadeAndLocate = i -> {
             pixels.get(y).set(i, color);
-            boolean isUpperPixelWithinCanvas  = y - 1 >= 0;
-            boolean isBottomPixelWithinCanvas = y + 1 < height;
+            boolean isUpperPixelWithinCanvas  = y - 1 >= 1;
+            boolean isBottomPixelWithinCanvas = y + 1 <= height;
 
             if (isUpperPixelWithinCanvas) {
                 String upperPixel = pixels.get(y - 1).get(i);
@@ -52,7 +52,7 @@ public class ShadeDrawingService implements DrawingService<Shade>{
             }
         };
 
-        for (int i = x; i < width; i++) {
+        for (int i = x; i <= width; i++) {
             String pixel = pixels.get(y).get(i);
             if (isShadedOrLine(pixel, color)) {
                 break;
@@ -61,7 +61,7 @@ public class ShadeDrawingService implements DrawingService<Shade>{
             }
         }
 
-        for (int i = x - 1; i >= 0; i--) {
+        for (int i = x - 1; i >= 1; i--) {
             String pixel = pixels.get(y).get(i);
             if (isShadedOrLine(pixel, color)) {
                 break;
