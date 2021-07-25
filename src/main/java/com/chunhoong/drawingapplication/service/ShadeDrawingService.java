@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.function.Consumer;
+
 @Service
 public class ShadeDrawingService implements DrawingService<Shade>{
     private static final Logger logger = LoggerFactory.getLogger(ShadeDrawingService.class);
@@ -30,64 +32,46 @@ public class ShadeDrawingService implements DrawingService<Shade>{
         var pixels = canvasService.getCanvas().getPixels();
         var linePattern = getPattern();
 
+        Consumer<Integer> shadeAndLocate = i -> {
+            pixels.get(y).set(i, color);
+            boolean isUpperPixelWithinCanvas  = y - 1 >= 0;
+            boolean isBottomPixelWithinCanvas = y + 1 < height;
+
+            if (isUpperPixelWithinCanvas) {
+                String upperPixel = pixels.get(y - 1).get(i);
+                if (!isShadedOrLine(upperPixel, color)) {
+                    doShade(i, y - 1, color);
+                }
+            }
+
+            if (isBottomPixelWithinCanvas) {
+                String bottomPixel = pixels.get(y + 1).get(i);
+                if (!isShadedOrLine(bottomPixel, color)) {
+                    doShade(i, y + 1, color);
+                }
+            }
+        };
+
         for (int i = x; i < width; i++) {
-            if (linePattern.equals(pixels.get(y).get(i))) {
-                break;
-            } else if (color.equals(pixels.get(y).get(i))) {
+            String pixel = pixels.get(y).get(i);
+            if (isShadedOrLine(pixel, color)) {
                 break;
             } else {
-                pixels.get(y).set(i, color);
-                boolean isUpperPixelWithinCanvas  = y - 1 >= 0;
-                boolean isBottomPixelWithinCanvas = y + 1 < height;
-
-                if (isUpperPixelWithinCanvas) {
-                    logger.info("Otw to right and upper pixel within canvas. x: {}, y: {}", i, y - 1);
-                    String upperPixel = pixels.get(y - 1).get(i);
-                    if (isNotShadedAndNotLine(upperPixel, color)) {
-                        doShade(i, y - 1, color);
-                    }
-                }
-
-                if (isBottomPixelWithinCanvas) {
-                    logger.info("Otw to right and bottom pixel within canvas. x: {}, y: {}", i, y + 1);
-                    String bottomPixel = pixels.get(y + 1).get(i);
-                    if (isNotShadedAndNotLine(bottomPixel, color)) {
-                        doShade(i, y + 1, color);
-                    }
-                }
+                shadeAndLocate.accept(i);
             }
         }
 
         for (int i = x - 1; i >= 0; i--) {
-            if (linePattern.equals(pixels.get(y).get(i))) {
-                break;
-            } else if (color.equals(pixels.get(y).get(i))) {
+            String pixel = pixels.get(y).get(i);
+            if (isShadedOrLine(pixel, color)) {
                 break;
             } else {
-                pixels.get(y).set(i, color);
-                boolean isUpperPixelWithinCanvas  = y - 1 >= 0;
-                boolean isBottomPixelWithinCanvas = y + 1 < height;
-
-                if (isUpperPixelWithinCanvas) {
-                    logger.info("Otw to left and upper pixel within canvas. x: {}, y: {}", i, y - 1);
-                    String bottomPixel = pixels.get(y - 1).get(i);
-                    if (isNotShadedAndNotLine(bottomPixel, color)) {
-                        doShade(i, y - 1, color);
-                    }
-                }
-
-                if (isBottomPixelWithinCanvas) {
-                    logger.info("Otw to left and lower pixel within canvas. x: {}, y: {}", i, y + 1);
-                    String bottomPixel = pixels.get(y + 1).get(i);
-                    if (isNotShadedAndNotLine(bottomPixel, color)) {
-                        doShade(i, y + 1, color);
-                    }
-                }
+                shadeAndLocate.accept(i);
             }
         }
     }
 
-    private boolean isNotShadedAndNotLine(String pixel, String color) {
-        return !color.equals(pixel) && !color.equals(getPattern());
+    private boolean isShadedOrLine(String pixel, String color) {
+        return color.equals(pixel) || getPattern().equals(pixel);
     }
 }
