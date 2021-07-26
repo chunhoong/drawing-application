@@ -9,7 +9,7 @@ import com.chunhoong.drawingapplication.domain.Line;
 import com.chunhoong.drawingapplication.domain.Rectangle;
 import com.chunhoong.drawingapplication.domain.Shade;
 import com.chunhoong.drawingapplication.facade.DrawingFacade;
-import com.chunhoong.drawingapplication.service.InputUtil;
+import com.chunhoong.drawingapplication.util.InputUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

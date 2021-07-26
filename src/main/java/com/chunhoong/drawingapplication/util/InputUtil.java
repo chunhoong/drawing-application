@@ -1,4 +1,4 @@
-package com.chunhoong.drawingapplication.service;
+package com.chunhoong.drawingapplication.util;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;

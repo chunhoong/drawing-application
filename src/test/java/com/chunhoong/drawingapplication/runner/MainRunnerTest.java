@@ -1,7 +1,7 @@
 package com.chunhoong.drawingapplication.runner;
 
 import com.chunhoong.drawingapplication.facade.DrawingFacade;
-import com.chunhoong.drawingapplication.service.InputUtil;
+import com.chunhoong.drawingapplication.util.InputUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
